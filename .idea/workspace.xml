@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="213b281b-7b8a-4200-a7a9-6b689e024543" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/二叉搜素树.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/数据结构二叉树赋值数组.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="213b281b-7b8a-4200-a7a9-6b689e024543" name="更改" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -127,7 +123,7 @@
       <workItem from="1779427637406" duration="6843000" />
       <workItem from="1779680190687" duration="4279000" />
       <workItem from="1779685266848" duration="95000" />
-      <workItem from="1779685367701" duration="6536000" />
+      <workItem from="1779685367701" duration="6947000" />
     </task>
     <servers />
   </component>
