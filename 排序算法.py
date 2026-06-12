@@ -159,29 +159,91 @@
 #     merge_sort(nums,0,len(nums)-1)
 #     print(nums)
 """堆排序"""
-def sift_down(nums:list[int],n:int,i:int):
-    while True:
-        l = 2*i+1
-        r = 2*i+2
-        ma = i
-        if l<n and nums[l]>nums[ma]:
-            ma = l
-        if r<n and nums[r]>nums[ma]:
-            ma = r
-        if ma == i:
-            break
-        nums[i],nums[ma] = nums[ma],nums[i]
-        i = ma
+# def sift_down(nums:list[int],n:int,i:int):
+#     while True:
+#         l = 2*i+1
+#         r = 2*i+2
+#         ma = i
+#         if l<n and nums[l]>nums[ma]:
+#             ma = l
+#         if r<n and nums[r]>nums[ma]:
+#             ma = r
+#         if ma == i:
+#             break
+#         nums[i],nums[ma] = nums[ma],nums[i]
+#         i = ma
+#
+# def heap_aort(nums:list[int]):
+#     for i in range(len(nums)//2-1,-1,-1):
+#         sift_down(nums,len(nums),i)
+#     for i in range(len(nums)-1,0,-1):
+#         nums[i],nums[0] = nums[0],nums[i]
+#         sift_down(nums,i,0)
+#
+# if __name__ == "__main__":
+#     nums = [2,4,1,0,3,5]
+#     heap_aort(nums)
+#     print(nums)
 
-def heap_aort(nums:list[int]):
-    for i in range(len(nums)//2-1,-1,-1):
-        sift_down(nums,len(nums),i)
-    for i in range(len(nums)-1,0,-1):
-        nums[i],nums[0] = nums[0],nums[i]
-        sift_down(nums,i,0)
+"""桶排序"""
+# def bucket_sort(nums:list[float]):
+#     #初始化每个桶分配2个元素
+#     k = len(nums) // 2
+#     buckets = [[] for _ in range(k)]
+#     for num in nums:
+#         i= int(num * k)
+#         buckets[i].append(num)
+#     for bucket in buckets:
+#         bucket.sort()
+#     i = 0
+#     for bucket in buckets:
+#         for num in bucket:
+#             nums[i] = num
+#             i+=1
+#
+#
+# if __name__ == "__main__":
+#     nums = [0.42,0.32,0.33,0.52,0.37,0.47,0.51,0.15]
+#     bucket_sort(nums)
+#     print(nums)
+
+"""计数排序"""
+# def counting_sort_naive(nums:list[int]):
+#     m = 0
+#     for num in nums:
+#         m = max(m,num)
+#     counter = [0] * (m+1)
+#     for num in nums:
+#         counter[num] += 1
+#     print(counter)
+#     i = 0
+#     for num in range(m+1):
+#         for _ in range(counter[num]):
+#             nums[i] =num
+#             i += 1
+# if __name__ == "__main__":
+#     nums = [2,4,1,0,0,2,5]
+#     counting_sort_naive(nums)
+#     print(nums)
+"""计数排序的优化"""
+def counting_sort(nums:list[int]):
+    m = max(nums)
+    counter = [0] * (m+1)
+    for num in nums:
+        counter[num] += 1
+    for i in range(m):
+        counter[i+1] += counter[i]
+    n = len(nums)
+    res = [0] * n
+    for i in range(n-1,-1,-1):
+        num = nums[i]
+        res[counter[num]-1] = num
+        counter[num] -= 1
+    for i in range(n):
+        nums[i] = res[i]
 
 if __name__ == "__main__":
-    nums = [2,4,1,0,3,5]
-    heap_aort(nums)
+    nums = [1,0 ,1,2,0,4,0,2,2,4]
+    counting_sort(nums)
     print(nums)
 
