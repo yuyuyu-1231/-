@@ -226,24 +226,58 @@
 #     counting_sort_naive(nums)
 #     print(nums)
 """计数排序的优化"""
-def counting_sort(nums:list[int]):
-    m = max(nums)
-    counter = [0] * (m+1)
-    for num in nums:
-        counter[num] += 1
-    for i in range(m):
-        counter[i+1] += counter[i]
+# def counting_sort(nums:list[int]):
+#     m = max(nums)
+#     counter = [0] * (m+1)
+#     for num in nums:
+#         counter[num] += 1
+#     for i in range(m):
+#         counter[i+1] += counter[i]
+#     n = len(nums)
+#     res = [0] * n
+#     for i in range(n-1,-1,-1):
+#         num = nums[i]
+#         res[counter[num]-1] = num
+#         counter[num] -= 1
+#     for i in range(n):
+#         nums[i] = res[i]
+#
+# if __name__ == "__main__":
+#     nums = [1,0 ,1,2,0,4,0,2,2,4]
+#     counting_sort(nums)
+#     print(nums)
+"""基数排序"""
+def digit(num:int,exp: int):
+    return (num//exp)%10
+
+
+def counting_sort_digit(nums:list[int],exp:int):
+    counter = [0]*10
     n = len(nums)
+    for i in range(n):
+        d = digit(nums[i],exp)
+        counter[d] += 1
+    for i in range(1, 10):
+        counter[i] += counter[i-1]
     res = [0] * n
     for i in range(n-1,-1,-1):
-        num = nums[i]
-        res[counter[num]-1] = num
-        counter[num] -= 1
+        d= digit(nums[i],exp)
+        j = counter[d] -1
+        res[j] = nums[i]
+        counter[d] -=1
     for i in range(n):
         nums[i] = res[i]
 
+
+def radix_sort(nums:list[int]):
+    m = max(nums)
+    exp = 1
+    while exp <= m:
+        counting_sort_digit(nums,exp)
+        exp *=10
+
 if __name__ == "__main__":
-    nums = [1,0 ,1,2,0,4,0,2,2,4]
-    counting_sort(nums)
+    nums = [170, 45, 75, 90, 802, 24, 2, 66]
+    radix_sort(nums)
     print(nums)
 
