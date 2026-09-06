@@ -77,18 +77,77 @@
 #     res = min_cost_climbing_stairs_dp(cost)
 #     print(f"爬完楼梯的最低代价为 {res}")
 
-def climbing_stairs_constraint_dp(n: int) -> int:
-    if n ==1 or n==2:
-        return 1
-    dp = [[0] * 3 for _ in range(n + 1)]
-    dp[1][1], dp[1][2] = 1, 0
-    dp[2][1], dp[2][2] = 0, 1
-    for i in range(3, n + 1):
-        dp[i][1] = dp[i - 1][2]
-        dp[i][2] = dp[i - 1][1] + dp[i - 1][2]
-    return dp[n][1] + dp[n][2]
+# def climbing_stairs_constraint_dp(n: int) -> int:
+#     if n ==1 or n==2:
+#         return 1
+#     dp = [[0] * 3 for _ in range(n + 1)]
+#     dp[1][1], dp[1][2] = 1, 0
+#     dp[2][1], dp[2][2] = 0, 1
+#     for i in range(3, n + 1):
+#         dp[i][1] = dp[i - 1][2]
+#         dp[i][2] = dp[i - 1][1] + dp[i - 1][2]
+#     return dp[n][1] + dp[n][2]
+#
+# if __name__ == '__main__':
+#     n = 9
+#     res = climbing_stairs_constraint_dp(n)
+#     print(res)
 
-if __name__ == '__main__':
-    n = 9
-    res = climbing_stairs_constraint_dp(n)
-    print(res)
+#暴力搜索
+from math import inf
+
+# def min_path_sum_dfs(grid:list[list[int]],i:int,j:int) -> int:
+#     if i ==0 and j==0:
+#         return grid[0][0]
+#     if i<0 or j<0:
+#         return inf
+#     up = min_path_sum_dfs(grid,i-1,j)
+#     left = min_path_sum_dfs(grid,i,j-1)
+#     return min(up,left) + grid[i][j]
+#
+# if __name__ == "__main__":
+#     grid = [[1, 3, 1, 5], [2, 2, 4, 2], [5, 3, 2, 1], [4, 3, 5, 2]]
+#     n,m = len(grid),len(grid[0])
+#     res = min_path_sum_dfs(grid, n - 1, m - 1)
+#     print(res)
+
+#记忆化搜索
+# from math import inf
+#
+# def min_path_sum_dfs(grid:list[list[int]],mem:list[list[int]],i:int,j:int) -> int:
+#     if i ==0 and j==0:
+#         return grid[0][0]
+#     if i<0 or j<0:
+#         return inf
+#     if mem[i][j] != -1:
+#         return mem[i][j]
+#     up = min_path_sum_dfs(grid,mem,i-1,j)
+#     left = min_path_sum_dfs(grid,mem,i,j-1)
+#     mem[i][j] = min(up,left) + grid[i][j]
+#     return mem[i][j]
+#
+# if __name__ == "__main__":
+#     grid = [[1, 3, 1, 5], [2, 2, 4, 2], [5, 3, 2, 1], [4, 3, 5, 2]]
+#     n,m = len(grid),len(grid[0])
+#     mem = [[-1]*m for _ in range(n)]
+#     res = min_path_sum_dfs(grid,mem, n - 1, m - 1)
+#
+#     print(res)
+
+#动态规划
+def min_path_sum_dp(grid:list[list[int]]) -> int:
+    n,m = len(grid),len(grid[0])
+    dp = [[0]*m for _ in range(n)]
+    dp[0][0] = grid[0][0]
+    for i in range(1,n):
+        dp[i][0] = dp[i-1][0] + grid[i][0]
+    for j in range(1,m):
+        dp[0][j] = dp[0][j-1] + grid[0][j]
+    for i in range(1,n):
+        for j in range(1,m):
+            dp[i][j] = min(dp[i-1][j],dp[i][j-1]) + grid[i][j]
+    return dp[n-1][m-1]
+
+if __name__ == "__main__":
+    grid = [[1, 3, 1, 5], [2, 2, 4, 2], [5, 3, 2, 1], [4, 3, 5, 2]]
+    print(min_path_sum_dp(grid))
