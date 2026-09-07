@@ -135,19 +135,101 @@ from math import inf
 #     print(res)
 
 #动态规划
-def min_path_sum_dp(grid:list[list[int]]) -> int:
-    n,m = len(grid),len(grid[0])
-    dp = [[0]*m for _ in range(n)]
-    dp[0][0] = grid[0][0]
-    for i in range(1,n):
-        dp[i][0] = dp[i-1][0] + grid[i][0]
-    for j in range(1,m):
-        dp[0][j] = dp[0][j-1] + grid[0][j]
-    for i in range(1,n):
-        for j in range(1,m):
-            dp[i][j] = min(dp[i-1][j],dp[i][j-1]) + grid[i][j]
-    return dp[n-1][m-1]
+# def min_path_sum_dp(grid:list[list[int]]) -> int:
+#     n,m = len(grid),len(grid[0])
+#     dp = [[0]*m for _ in range(n)]
+#     dp[0][0] = grid[0][0]
+#     for i in range(1,n):
+#         dp[i][0] = dp[i-1][0] + grid[i][0]
+#     for j in range(1,m):
+#         dp[0][j] = dp[0][j-1] + grid[0][j]
+#     for i in range(1,n):
+#         for j in range(1,m):
+#             dp[i][j] = min(dp[i-1][j],dp[i][j-1]) + grid[i][j]
+#     return dp[n-1][m-1]
+#
+# if __name__ == "__main__":
+#     grid = [[1, 3, 1, 5], [2, 2, 4, 2], [5, 3, 2, 1], [4, 3, 5, 2]]
+#     print(min_path_sum_dp(grid))
+#
+# #0-1背包问题
+# def knapsack_dfs(wgt: list[int], val: list[int], i:int, c:int) -> int:
+#     if i==0 or c==0:
+#         return 0
+#     if wgt[i-1] > c:
+#         return knapsack_dfs(wgt,val,i-1,c)
+#     no = knapsack_dfs(wgt,val,i-1,c)
+#     yes = knapsack_dfs(wgt,val,i-1,c-wgt[i-1]) + val[i-1]
+#     return max(no,yes)
+#
+# if __name__ == "__main__":
+#     wgt = [10, 20, 30, 40, 50]
+#     val = [50, 120, 150, 210, 240]
+#     cap = 50
+#     n = len(wgt)
+#     res = knapsack_dfs(wgt,val,n,cap)
+#     print(res)
+#
 
-if __name__ == "__main__":
-    grid = [[1, 3, 1, 5], [2, 2, 4, 2], [5, 3, 2, 1], [4, 3, 5, 2]]
-    print(min_path_sum_dp(grid))
+#记忆化搜索
+# def knapsack_dfs_mem(
+#         wgt: list[int],val : list[int],mem:list[list[int]],i:int,c:int
+# ) -> int:
+#     if i==0 or c==0:
+#         return 0
+#     if wgt[i-1] > c:
+#         return knapsack_dfs_mem(wgt,val,mem,i-1,c)
+#     if mem[i][c] != -1:
+#         return mem[i][c]
+#     no = knapsack_dfs_mem(wgt,val,mem,i-1,c)
+#     yes = knapsack_dfs_mem(wgt,val,mem,i-1,c-wgt[i-1]) + val[i-1]
+#     mem[i][c] = max(no,yes)
+#     return mem[i][c]
+# if __name__ == "__main__":
+#
+#     wgt = [10, 20, 30, 40, 50]
+#     val = [50, 120, 150, 210, 240]
+#     cap = 50
+#     n = len(wgt)
+#     mem = [[-1]* (cap + 1) for _ in range(n + 1)]
+#     res = knapsack_dfs_mem(wgt,val,mem,n,cap)
+#     print(res)
+
+#动态规划
+# def knapsack_dp(wgt: list[int], val: list[int], n:int, c:int) -> int:
+#     dp = [[0] * (c + 1) for _ in range(n + 1)]
+#     for i in range(1, n + 1):
+#         for j in range(1, c + 1):
+#             if wgt[i - 1] > j:
+#                 dp[i][j] = dp[i - 1][j]
+#             else:
+#                 dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - wgt[i - 1]] + val[i - 1])
+#     return dp[n][c]
+#
+# if __name__ == "__main__":
+#     wgt = [10, 20, 30, 40, 50]
+#     val = [50, 120, 150, 210, 240]
+#     cap = 50
+#     n = len(wgt)
+#     res = knapsack_dp(wgt,val,n,cap)
+#     print(res)
+#
+
+#空间优化
+def knapsack_dp_comp(wgt: list[int], val: list[int], cap: int) -> int:
+    n = len(wgt)
+    dp = [0] * (cap + 1)
+    for i in range(1, n + 1):
+        for j in range(cap, wgt[i - 1] - 1, -1):
+            if wgt[i-1] > j  :
+                dp[j] = dp[j]
+            else:
+                dp[j] = max(dp[j], dp[j - wgt[i - 1]] + val[i - 1])
+    return dp[cap]
+
+if __name__ == '__main__':
+    wgt = [10, 20, 30, 40, 50]
+    val = [50, 120, 150, 210, 240]
+    cap = 50
+    res = knapsack_dp_comp(wgt,val,cap)
+    print(res)
