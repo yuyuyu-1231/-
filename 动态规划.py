@@ -216,20 +216,131 @@ from math import inf
 #
 
 #空间优化
-def knapsack_dp_comp(wgt: list[int], val: list[int], cap: int) -> int:
-    n = len(wgt)
-    dp = [0] * (cap + 1)
-    for i in range(1, n + 1):
-        for j in range(cap, wgt[i - 1] - 1, -1):
-            if wgt[i-1] > j  :
-                dp[j] = dp[j]
-            else:
-                dp[j] = max(dp[j], dp[j - wgt[i - 1]] + val[i - 1])
-    return dp[cap]
+# def knapsack_dp_comp(wgt: list[int], val: list[int], cap: int) -> int:
+#     n = len(wgt)
+#     dp = [0] * (cap + 1)
+#     for i in range(1, n + 1):
+#         for j in range(cap, wgt[i - 1] - 1, -1):
+#             if wgt[i-1] > j  :
+#                 dp[j] = dp[j]
+#             else:
+#                 dp[j] = max(dp[j], dp[j - wgt[i - 1]] + val[i - 1])
+#     return dp[cap]
+#
+# if __name__ == '__main__':
+#     wgt = [10, 20, 30, 40, 50]
+#     val = [50, 120, 150, 210, 240]
+#     cap = 50
+#     res = knapsack_dp_comp(wgt,val,cap)
+#     print(res)
 
-if __name__ == '__main__':
-    wgt = [10, 20, 30, 40, 50]
-    val = [50, 120, 150, 210, 240]
-    cap = 50
-    res = knapsack_dp_comp(wgt,val,cap)
+#零钱兑换问题
+# def coin_change_dp(coins: list[int], amt: int) -> int:
+#     n = len(coins)
+#     MAX = amt + 1
+#     dp =[[0]*(amt + 1) for _ in range(n+1)]
+#     for a in range(1,amt + 1):
+#         dp[0][a] = MAX
+#     for i in range(1,n+1):
+#         for a in range(1,amt+1):
+#             if coins[i-1] > a:
+#                 dp[i][a] = dp[i-1][a]
+#             else:
+#                 dp[i][a] = min(dp[i-1][a],dp[i][a-coins[i-1]]+1)
+#     return dp[n][amt] if dp[n][amt] < MAX else -1
+
+# if __name__ == "__main__":
+#     coins = [1, 2, 5]
+#     amt = 11
+#     res = coin_change_dp(coins, amt)
+#     print(res)
+
+#空间优化
+# def coin_change_dp_comp(coins: list[int], amt: int) -> int:
+#     n = len(coins)
+#     MAX = amt + 1
+#     dp = [MAX] * (amt + 1)
+#     dp[0] = 0
+#     for a in range(1, amt + 1):
+#         for i in range(1, n + 1):
+#             if coins[i - 1] > a:
+#                 dp[a] = dp[a]
+#             else:
+#                 dp[a] = min(dp[a], dp[a - coins[i - 1]] + 1)
+#     return dp[amt] if dp[amt] < MAX else -1
+#
+# if __name__ == "__main__":
+#     coins = [1, 2, 5]
+#     amt = 11
+#     res = coin_change_dp_comp(coins, amt)
+#     print(res)
+
+#零钱兑换问题二
+# def coin_change_ii_dp(coins: list[int],amt : int)-> int:
+#     n = len(coins)
+#     dp = [[0] * (amt + 1) for _ in range(n + 1)]
+#     for i in range(n + 1):
+#         dp[i][0] = 1
+#     for i in range(1, n + 1):
+#         for a in range(1,amt +1):
+#             if coins[i-1] > a:
+#                 dp[i][a] = dp[i-1][a]
+#             else:
+#                 dp[i][a] = dp[i-1][a] + dp[i][a-coins[i-1]]
+#     return dp[n][amt]
+#
+#
+# if __name__ == "__main__":
+#     coins = [1,2,5]
+#     amt = 5
+#
+#     res = coin_change_ii_dp(coins,amt)
+#     print(res)
+
+#编辑距离问题
+# def edit_distance_dp(s: str, t: str) -> int:
+#     n, m = len(s), len(t)
+#     # dp[i][j] 表示 s 前 i 个字符与 t 前 j 个字符的编辑距离
+#     dp = [[0] * (m + 1) for _ in range(n + 1)]
+#     for i in range(1, n + 1):
+#         dp[i][0] = i
+#     for j in range(1, m + 1):
+#         dp[0][j] = j
+#     for i in range(1, n + 1):
+#         for j in range(1, m + 1):
+#             if s[i - 1] == t[j - 1]:
+#                 dp[i][j] = dp[i - 1][j - 1]
+#             else:
+#                 # 插入、删除、替换三种操作取最小
+#                 dp[i][j] = min(dp[i][j - 1], dp[i - 1][j], dp[i - 1][j - 1]) + 1
+#     return dp[n][m]
+#
+# if __name__ == "__main__":
+#     s = "kitten"
+#     t = "sitting"
+#     res = edit_distance_dp(s, t)
+#     print(res)
+
+#空间优化
+def edit_distance_dp_comp(s:str ,t:str)-> int:
+    n,m = len(s),len(t)
+    dp = [0] * (m + 1)
+    for j in range(1,m+1):
+        dp[j] = j
+    for i in range(1,n+1):
+        leftup = dp[0]
+        dp[0] +=1
+        for j in range(1, m + 1):
+            temp = dp[j]
+            if s[i - 1] == t[j - 1]:
+                dp[j] = leftup
+            else:
+                dp[j] = min(dp[j - 1], dp[j], leftup) + 1
+            leftup = temp
+    return dp[m]
+
+if __name__ == "__main__":
+    s = "kitten"
+    t = "sitting"
+    res = edit_distance_dp_comp(s, t)
     print(res)
