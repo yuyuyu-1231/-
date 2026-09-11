@@ -48,7 +48,7 @@ def max_capacity(ht: list[int])->int:
     i,j = 0,len(ht)-1
     res = 0
     while i < j :
-        cap = min(ht[i],ht[j])*(j-1)
+        cap = min(ht[i],ht[j])*(j-i)
         res = max(res,cap)
         if ht[i] < ht[j]:
             i += 1
