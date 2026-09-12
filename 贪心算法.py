@@ -44,18 +44,36 @@
 #     print(res)
 
 #最大容量问题
-def max_capacity(ht: list[int])->int:
-    i,j = 0,len(ht)-1
-    res = 0
-    while i < j :
-        cap = min(ht[i],ht[j])*(j-i)
-        res = max(res,cap)
-        if ht[i] < ht[j]:
-            i += 1
-        else:
-            j -= 1
-    return res
+# def max_capacity(ht: list[int])->int:
+#     i,j = 0,len(ht)-1
+#     res = 0
+#     while i < j :
+#         cap = min(ht[i],ht[j])*(j-i)
+#         res = max(res,cap)
+#         if ht[i] < ht[j]:
+#             i += 1
+#         else:
+#             j -= 1
+#     return res
+# if __name__ == "__main__":
+#     ht = [3,8,5,2,7,7,3,4]
+#     res = max_capacity(ht)
+#     print(res)
+
+#最大切分乘积问题
+import math
+
+def max_product_cutting(n: int) -> int :
+    if n <= 3:
+        return 1*(n-1)
+    a,b = n//3, n % 3
+    if b == 1:
+        return int(math.pow(3,a-1))*2*2
+    if b == 2:
+        return int(math.pow(3,a))*2
+    return int(math.pow(3,a))
+
 if __name__ == "__main__":
-    ht = [3,8,5,2,7,7,3,4]
-    res = max_capacity(ht)
+    n = 58
+    res = max_product_cutting(n)
     print(res)
