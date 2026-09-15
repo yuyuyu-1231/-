@@ -125,3 +125,93 @@ class Solution:
             dic[cur].random = dic.get(cur.random)
             cur = cur.next
         return dic[head]
+
+#有效扩号（hashmap）
+class Solution:
+    def isValid(self, s: str) -> bool:
+        dic = {'{': '}',  '[': ']', '(': ')', '?': '?'}
+        stack = ['?']
+        for c in s :
+            if c in dic:
+                stack.append(c)
+            elif dic[stack.pop()] !=c:
+                return False
+        return len(stack) == 1
+#最小宅
+class MinStack:
+
+    def __init__(self):
+        self.stack = []
+        self.min_stack = []
+    def push(self, x: int) -> None:
+        self.stack.append(x)
+        if not self.min_stack or x <= self.min_stack[-1]:
+            self.min_stack.append(x)
+
+    def pop(self) -> None:
+        if self.stack.pop() == self.min_stack[-1]:
+            self.min_stack.pop()
+    def top(self) -> int:
+        return self.stack[-1]
+    def getMin(self) -> int:
+        return self.min_stack[-1]
+
+    #用宅实现队列
+    class MyQueue:
+
+        def __init__(self):
+            self.A, self.B = [], []
+
+        def push(self, x: int) -> None:
+            self.A.append(x)
+
+        def pop(self) -> int:
+            peek = self.peek()
+            self.B.pop()
+            return peek
+
+        def peek(self) -> int:
+            if self.B: return self.B[-1]
+            if not self.A: return -1
+            while self.A:
+                self.B.append(self.A.pop())
+            return self.B[-1]
+
+        def empty(self) -> bool:
+            return not self.A and not self.B
+#字符串编码 解除 反编码
+class Solution:
+    def decodeString(self, s: str) -> str:
+        stack , res , multi = [] , "" , 0
+        for c in s:
+            if c == "[":
+                stack.append([res,multi])
+                res , multi = "" , 0
+            elif c == "]":
+                last_res, cur_multi = stack.pop()
+                res = last_res + cur_multi*res
+            elif "0"<=c<="9":
+                multi = multi * 10 + int(c)
+            else:
+                res += c
+        return res
+
+#同上 （递归算法）
+class Solution:
+    def decodeString(self, s: str) -> str:
+        def dfs(s,i):
+            res, multi = "",0
+            while i < len(s):
+                if '0'<= s[i] <= "9":
+                    multi = multi*10 +int(s[i])
+                elif s[i] == "[":
+                    i,tmp= dfs(s,i+1)
+                    res += multi *tmp
+                    multi = 0
+                elif s[i]=="]":
+                    return i,res
+                else:
+                    res += s[i]
+                i += 1
+            return res
+        return dfs(s,0)
