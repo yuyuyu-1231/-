@@ -215,3 +215,53 @@ class Solution:
                 i += 1
             return res
         return dfs(s,0)
+
+#用堆找中位数
+from heapq import *
+class MedianFinder:
+
+    def __init__(self):
+        self.A =[]
+        self.B =[]
+
+    def addNum(self, num: int) -> None:
+        if len(self.A) != len(self.B):
+            heappush(self.A,num)
+            heappush(self.B,-heappop(self.A))
+        else:
+            heappush(self.B,-num)
+            heappush(self.A,-heappop(self.B))
+    def findMedian(self) -> float:
+        return self.A[0] if len(self.A) != len(self.B) else (self.A[0]-self.B[0])/2.0
+
+#优化上码
+from heapq import *
+
+class MedianFinder:
+    def __init__(self):
+        self.A = [] # 小顶堆，保存较大的一半
+        self.B = [] # 大顶堆，保存较小的一半
+
+    def addNum(self, num: int) -> None:
+        if len(self.A) != len(self.B):
+            heappush(self.B, -heappushpop(self.A, num))
+        else:
+            heappush(self.A, -heappushpop(self.B, -num))
+
+    def findMedian(self) -> float:
+        return self.A[0] if len(self.A) != len(self.B) else (self.A[0] - self.B[0]) / 2.0
+
+#有效的字母异位字符
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        if len(s) != len(t):
+            return False
+        dic = defaultdict(int)
+        for c in s:
+            dic[c] += 1
+        for c in t:
+            dic[c] -= 1
+        for val in dic.values():
+            if val != 0:
+                return False
+        return True
