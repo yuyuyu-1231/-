@@ -265,3 +265,46 @@ class Solution:
             if val != 0:
                 return False
         return True
+#字符串中第一个唯一字符
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        dic = {}
+        for c in s:
+            dic[c] = not c in dic
+        for i , c in enumerate(s):
+            if dic[c] : return i
+        return -1
+#同构字符串
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        s2t, t2s = {}, {}
+        for a,b in zip(s,t):
+            if a in s2t and s2t[a] != b or b in t2s and t2s[b] != a:
+                return False
+            s2t[a] , t2s[b] = b, a
+        return True
+#判断子序列问题
+class Solution:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        if not s: return True
+        i = 0
+        for c in t:
+            if s[i] == c:
+                i+=1
+                if len(s) == i:
+                    return True
+        return False
+
+#链表中间节点
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def middleNode(self, head: ListNode | None) -> ListNode | None:
+        fast = slow = head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+        return slow
