@@ -308,3 +308,28 @@ class Solution:
             fast = fast.next.next
             slow = slow.next
         return slow
+
+#相交链表
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        A,B = headA,headB
+        while  A != B:
+            A = A.next if A else headB
+            B = B.next if B else headA
+        return A
+#两数之和2 -输入有序数组
+class Solution:
+    def twoSum(self, numbers: list[int], target: int) -> list[int]:
+        i,j = 0,len(numbers) - 1
+        while i < j :
+            s = numbers[i] +numbers[j]
+            if s > target: j -=1
+            elif s < target: i += 1
+            else: return i+1,j+1
+        return []
