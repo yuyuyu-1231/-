@@ -333,3 +333,59 @@ class Solution:
             elif s < target: i += 1
             else: return i+1,j+1
         return []
+
+#环形列表2
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        fast , slow = head ,head
+        while True:
+            if not (fast and fast.next): return
+            fast , slow = fast.next.next,slow.next
+            if fast == slow:break
+        fast = head
+        while fast != slow:
+            fast,slow = fast.next ,slow.next
+        return fast
+
+    #反转字符串中的单词
+    class Solution:
+        def reverseWords(self, s: str) -> str:
+            s = s.strip()
+            i = j = len(s) - 1
+            res = []
+            while i >= 0:
+                while i >= 0 and s[i] != " ": i -= 1
+                res.append(s[i + 1:j + 1])
+                while i >= 0 and s[i] == " ": i -= 1
+                j = i
+            return ' '.join(res)
+#三数之和（双指针）
+class Solution:
+    def threeSum(self, nums: list[int]) -> list[list[int]]:
+        nums.sort()
+        res,k = [],0
+        for k in range(len(nums) - 2):
+            if nums[k] > 0: break
+            if k > 0 and nums[k] == nums[k-1]: continue
+            i , j = k + 1,len(nums) - 1
+            while i < j:
+                s = nums[k] + nums[i] + nums[j]
+                if s < 0:
+                    i += 1
+                    while i < j and nums[i] == nums[i -1]: i += 1
+                elif s > 0:
+                    j -= 1
+                    while i < j and nums[j] == nums[j+1]: j -= 1
+                else:
+                    res.append([nums[k],nums[j],nums[i]])
+                    i += 1
+                    j -= 1
+                    while i < j and nums[i] == nums[i -1]: i += 1
+                    while i < j and nums[j] == nums[j+1]: j -= 1
+        return res
