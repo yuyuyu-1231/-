@@ -389,3 +389,36 @@ class Solution:
                     while i < j and nums[i] == nums[i -1]: i += 1
                     while i < j and nums[j] == nums[j+1]: j -= 1
         return res
+
+#滑动窗口最大值
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        deque = collections.deque()
+        res , n = [] , len(nums)
+        for i ,j in zip(range(1-k,n-k+1),range(n)):
+            if i > 0 and deque[0] == nums[i-1]:
+                deque.popleft()
+            while deque and deque[-1] < nums[j]:
+                deque.pop()
+            deque.append(nums[j])
+            if i >= 0:
+                res.append(deque[0])
+        return res
+
+#字符串相加
+class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+        res = ''
+        i,j,carry = len(num1) - 1 ,len(num2) -1,0
+        while i >= 0  or j >= 0:
+            n1 = int(num1[i]) if i >= 0 else 0
+            n2 = int(num2[j]) if j >= 0 else 0
+            tmp = n1 + n2 + carry
+            carry = tmp//10
+            res = str(tmp % 10) + res
+            i,j = i -1 , j-1
+        return '1'+ res if carry else res
+#旋转字符串
+class Solution:
+    def rotateString(self, s: str, goal: str) -> bool:
+        return len(s) == len(goal) and s in (goal+goal)
