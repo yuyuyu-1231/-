@@ -422,3 +422,94 @@ class Solution:
 class Solution:
     def rotateString(self, s: str, goal: str) -> bool:
         return len(s) == len(goal) and s in (goal+goal)
+
+#验证栈序列
+class Solution:
+    def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
+        stack , i = [] , 0
+        for num in pushed:
+            stack.append(num)
+            while stack and stack[-1] == popped[i]:
+                stack.pop()
+                i += 1
+        return not stack
+
+#z字形变换
+class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        if numRows < 2:
+            return s
+        res = ["" for _ in range(numRows)]
+        i , flag = 0 , -1
+        for c in s:
+            res[i] += c
+            if i == 0 or i == numRows - 1 :
+                flag = -flag
+            i += flag
+        return "".join(res)
+
+#螺旋矩阵
+class Solution:
+    def spiralOrder(self, matrix: list[list[int]]) -> list[int]:
+        if not matrix:return []
+        l,r,t,b,res = 0 ,len(matrix[0]) - 1 ,0,len(matrix) - 1 ,[]
+        while True:
+            for i in range(l,r+1): res.append(matrix[t][i])
+            t += 1
+            if t > b: break
+            for i in range(t,b+1): res.append(matrix[i][r])
+            r -= 1
+            if l > r:break
+            for i in range(r, l - 1, -1): res.append(matrix[b][i]) # right to left
+            b -= 1
+            if t > b: break
+            for i in range(b, t - 1, -1): res.append(matrix[i][l]) # bottom to top
+            l += 1
+            if l > r: break
+        return res
+
+#螺旋矩阵2
+class Solution:
+    def generateMatrix(self, n: int) -> [[int]]:
+        l, r, t, b = 0, n - 1, 0, n - 1
+        mat = [[0 for _ in range(n)] for _ in range(n)]
+        num, tar = 1, n * n
+        while num <= tar:
+            for i in range(l, r + 1): # left to right
+                mat[t][i] = num
+                num += 1
+            t += 1
+            for i in range(t, b + 1): # top to bottom
+                mat[i][r] = num
+                num += 1
+            r -= 1
+            for i in range(r, l - 1, -1): # right to left
+                mat[b][i] = num
+                num += 1
+            b -= 1
+            for i in range(b, t - 1, -1): # bottom to top
+                mat[i][l] = num
+                num += 1
+            l += 1
+
+#旋转图像（拷贝矩阵公式法）
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        n = len(matrix)
+        # 深拷贝 matrix -> tmp
+        tmp = copy.deepcopy(matrix)
+        # 根据元素旋转公式，遍历修改原矩阵 matrix 的各元素
+        for i in range(n):
+            for j in range(n):
+                matrix[j][n - 1 - i] = tmp[i][j]
+#同上（原地修改）
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        n = len(matrix)
+        for i in range(n // 2):
+            for j in range((n + 1) // 2):
+                tmp = matrix[i][j]
+                matrix[i][j] = matrix[n - 1 - j][i]
+                matrix[n - 1 - j][i] = matrix[n - 1 - i][n - 1 - j]
+                matrix[n - 1 - i][n - 1 - j] = matrix[j][n - 1 - i]
+                matrix[j][n - 1 - i] = tmp
