@@ -513,3 +513,29 @@ class Solution:
                 matrix[n - 1 - j][i] = matrix[n - 1 - i][n - 1 - j]
                 matrix[n - 1 - i][n - 1 - j] = matrix[j][n - 1 - i]
                 matrix[j][n - 1 - i] = tmp
+
+#字符串转换整数
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        s=s.strip()
+        if not s: return 0
+        res,i,sign = 0,1,1
+        int_max , int_min , bndry = 2 ** 31 - 1,-2 ** 31,2 ** 31 // 10
+        if s[0] == "-": sign = -1
+        elif s[0] != '+': i = 0
+        for c in s[i:]:
+            if not "0" <= c <= '9':break
+            if res > bndry or res == bndry and c > "7":return int_max if sign == 1 else int_min
+            res = 10 * res + ord(c) - ord("0")
+        return sign * res
+
+#二分查找
+class Solution:
+    def search(self, nums: list[int], target: int) -> int:
+        i , j = 0 , len(nums) -1
+        while i <= j:
+            m = (i+j)//2
+            if nums[m] < target: i = m+1
+            elif nums[m] > target : j = m -1
+            else: return m
+        return -1
