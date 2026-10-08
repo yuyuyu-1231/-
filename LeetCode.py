@@ -539,3 +539,37 @@ class Solution:
             elif nums[m] > target : j = m -1
             else: return m
         return -1
+#第一个错误版本
+# The isBadVersion API is already defined for you.
+# def isBadVersion(version: int) -> bool:
+
+class Solution:
+    def firstBadVersion(self, n: int) -> int:
+        i,j = 1,n
+        while i <= j:
+            m = (i+j)//2
+            if isBadVersion(m): j = m - 1
+            else: i = m + 1
+        return i
+#寻找数组的中心下标
+class Solution:
+    def pivotIndex(self, nums: list[int]) -> int:
+        sum_left , sum_right = 0 , sum(nums)
+        for i in range(len(nums)):
+            sum_right -= nums[i]
+            if sum_left == sum_right:
+                return i
+            sum_left += nums[i]
+        return -1
+#寻找重复数
+class Solution:
+    def findDuplicate(self, nums: list[int]) -> int:
+        i = 0
+        while i < len(nums):
+            if nums[i] == i:
+                i += 1
+                continue
+            if nums[nums[i]] == nums[i]:
+                return nums[i]
+            nums[nums[i]], nums[i] = nums[i], nums[nums[i]]
+        return -1
