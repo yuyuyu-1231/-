@@ -573,3 +573,19 @@ class Solution:
                 return nums[i]
             nums[nums[i]], nums[i] = nums[i], nums[nums[i]]
         return -1
+#同上
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        def next(i):
+            return nums[i]
+        slow = fast = 0
+        while True:
+            slow = next(slow)
+            fast = next(next(fast))
+            if slow == fast:
+                break
+        slow = 0
+        while slow != fast:
+            slow = next(slow)
+            fast = next(fast)
+        return slow
