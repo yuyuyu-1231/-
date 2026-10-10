@@ -589,3 +589,24 @@ class Solution:
             slow = next(slow)
             fast = next(fast)
         return slow
+#寻找旋转排序数组中的最小值 II
+class Solution:
+    def findMin(self, nums: list[int]) -> int:
+        i , j = 0 ,len(nums) - 1
+        while i < j:
+            m = (i+j) // 2
+            if nums[m] > nums[j]:i = m + 1
+            elif nums[m] < nums[j]:j = m
+            else : j-=1
+        return nums[i]
+#方法2
+class Solution:
+    def findMin(self, nums: [int]) -> int:
+        i, j = 0, len(nums) - 1
+        while i < j:
+            m = (i + j) // 2
+            if nums[m] > nums[j]: i = m + 1
+            elif nums[m] < nums[j]: j = m
+            else: return min(nums[i:j])
+        return nums[i]
+
