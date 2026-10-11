@@ -609,4 +609,103 @@ class Solution:
             elif nums[m] < nums[j]: j = m
             else: return min(nums[i:j])
         return nums[i]
-
+#二叉树层序遍历
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def levelOrder(self, root: TreeNode | None) -> list[list[int]]:
+        if not root: return []
+        res , queue = [] , collections.deque()
+        queue.append(root)
+        while queue:
+            tmp =[]
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                tmp.append(node.val)
+                if node.left: queue.append(node.left)
+                if node.right: queue.append(node.right)
+            res.append(tmp)
+        return res
+#二叉树的锯齿形层序遍历
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def zigzagLevelOrder(self, root: TreeNode | None) -> list[list[int]]:
+        if not root: return []
+        res, deque = [], collections.deque([root])
+        while deque:
+            tmp = collections.deque()
+            for _ in range(len(deque)):
+                node = deque.popleft()
+                if len(res) % 2 == 0:
+                    tmp.append(node.val)
+                else:
+                    tmp.appendleft(node.val)
+                if node.left: deque.append(node.left)
+                if node.right: deque.append(node.right)
+            res.append(list(tmp))
+        return res
+#法二
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root: return []
+        res, deque = [], collections.deque()
+        deque.append(root)
+        while deque:
+            tmp = []
+            # 打印奇数层
+            for _ in range(len(deque)):
+                # 从左向右打印
+                node = deque.popleft()
+                tmp.append(node.val)
+                # 先左后右加入下层节点
+                if node.left: deque.append(node.left)
+                if node.right: deque.append(node.right)
+            res.append(tmp)
+            if not deque: break # 若为空则提前跳出
+            # 打印偶数层
+            tmp = []
+            for _ in range(len(deque)):
+                # 从右向左打印
+                node = deque.pop()
+                tmp.append(node.val)
+                # 先右后左加入下层节点
+                if node.right: deque.appendleft(node.right)
+                if node.left: deque.appendleft(node.left)
+            res.append(tmp)
+        return res
+#法三
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root: return []
+        res , queue = [] , collections.deque()
+        queue.append(root)
+        while queue:
+            tmp = []
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                tmp.append(node.val)
+                if node.left:queue.append(node.left)
+                if node.right: queue.append(node.right)
+            res.append(tmp[::-1]if len(res)%2 else tmp)
+        return res 
