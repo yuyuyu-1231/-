@@ -708,4 +708,20 @@ class Solution:
                 if node.left:queue.append(node.left)
                 if node.right: queue.append(node.right)
             res.append(tmp[::-1]if len(res)%2 else tmp)
-        return res 
+        return res
+#二叉树最近公共祖先
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root or root == p or root == q: return root
+        left = self.lowestCommonAncestor(root.left,p,q)
+        right = self.lowestCommonAncestor(root.right,p,q)
+        if not left: return right
+        if not right: return left
+        return root
