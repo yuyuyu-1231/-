@@ -773,5 +773,7 @@ class Solution:
 
 #数组中的第 K 个最大元素
 class Solution:
-    def findKthLargest(self, nums: list[int], k: int) -> int:
-        return heapq.nlargest(k, nums)[-1]
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        return sorted(nums)[len(nums) - k]
+
+
