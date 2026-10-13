@@ -725,3 +725,53 @@ class Solution:
         if not left: return right
         if not right: return left
         return root
+#二叉搜索树中第k小的元素
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        def dfs(root):
+            if not root: return
+            dfs(root.left)
+            if self.k == 0: return
+            self.k -= 1
+            if self.k == 0: self.res = root.val
+            dfs(root.right)
+
+        self.k = k
+        dfs(root)
+        return self.res
+
+#二叉搜索树的最近祖先节点
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root or root == p or root == q: return root
+        left = self.lowestCommonAncestor(root.left,p,q)
+        right = self.lowestCommonAncestor(root.right,p,q)
+        if not left: return right
+        if not right: return left
+        return root
+#法二
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if root.val < p.val and root.val < q.val:
+            return self.lowestCommonAncestor(root.right, p, q)
+        if root.val > p.val and root.val > q.val:
+            return self.lowestCommonAncestor(root.left, p, q)
+        return root
+
+#数组中的第 K 个最大元素
+class Solution:
+    def findKthLargest(self, nums: list[int], k: int) -> int:
+        return heapq.nlargest(k, nums)[-1]
