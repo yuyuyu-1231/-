@@ -777,3 +777,23 @@ class Solution:
         return sorted(nums)[len(nums) - k]
 
 
+#法二 哨兵划分 + 递归
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        def quick_select(nums,k):
+            pivot =  random.choice(nums)
+            big, equal, small = [], [], []
+            for num in nums:
+                if num > pivot:
+                    big.append(num)
+                elif num < pivot:
+                    small.append(num)
+                else:
+                    equal.append(num)
+            if k <= len(big):
+                return quick_select(big,k)
+            if k > len(big) + len(equal):
+                return quick_select(small,k - len(big) - len(equal))
+            else:
+                return pivot
+        return quick_select(nums,k)
