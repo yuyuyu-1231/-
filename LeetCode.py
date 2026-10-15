@@ -797,3 +797,46 @@ class Solution:
             else:
                 return pivot
         return quick_select(nums,k)
+
+#课程表（广度优先搜索+拓扑排序）
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: list[list[int]]) -> bool:
+        edges = [[] for _ in range(numCourses)]
+        indegree = [0] * numCourses
+        for a, b in prerequisites:
+            edges[b].append(a)
+            indegree[a] += 1
+
+        queue = collections.deque()
+        for i in range(numCourses):
+            if indegree[i] == 0:
+                queue.append(i)
+
+        taken = 0
+        while queue:
+            b = queue.popleft()
+            taken += 1
+            for a in edges[b]:
+                indegree[a] -= 1
+                if indegree[a] == 0:
+                    queue.append(a)
+        return taken == numCourses
+#法二（深度优先搜索）
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: list[list[int]]) -> bool:
+        def dfs(i, adjacency, flags):
+            if flags[i] == -1: return True
+            if flags[i] == 1: return False
+            flags[i] = 1
+            for j in adjacency[i]:
+                if not dfs(j, adjacency, flags): return False
+            flags[i] = -1
+            return True
+
+        adjacency = [[] for _ in range(numCourses)]
+        flags = [0 for _ in range(numCourses)]
+        for cur, pre in prerequisites:
+            adjacency[pre].append(cur)
+        for i in range(numCourses):
+            if not dfs(i, adjacency, flags): return False
+        return True
