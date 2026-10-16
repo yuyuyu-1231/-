@@ -840,3 +840,57 @@ class Solution:
         for i in range(numCourses):
             if not dfs(i, adjacency, flags): return False
         return True
+
+#二叉树的最大深度（dfs）
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxDepth(self, root: TreeNode | None) -> int:
+        if not root: return 0
+        return max(self.maxDepth(root.left),self.maxDepth(root.right)) + 1
+#法二（bfs）
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxDepth(self, root: TreeNode | None) -> int:
+        if not root: return 0
+        queue, res = [root], 0
+        while queue:
+            tmp = []
+            for node in queue:
+                if node.left: tmp.append(node.left)
+                if node.right: tmp.append(node.right)
+            queue = tmp
+            res += 1
+        return res
+#路径总和2
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self, root: TreeNode | None, targetSum: int) -> list[list[int]]:
+        res, path = [], []
+
+        def recur(root, tar):
+            if not root: return
+            path.append(root.val)
+            tar -= root.val
+            if tar == 0 and not root.left and not root.right:
+                res.append(list(path))
+            recur(root.left, tar)
+            recur(root.right, tar)
+            path.pop()
+
+        recur(root, targetSum)
+        return res
