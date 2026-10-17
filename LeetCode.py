@@ -894,3 +894,56 @@ class Solution:
 
         recur(root, targetSum)
         return res
+#全排列
+class Solution:
+    def permute(self, nums: list[int]) -> list[list[int]]:
+        def dfs(x):
+            if x  == len(nums) -1:
+                res.append(list(nums))
+                return
+            for i in range(x,len(nums)):
+                nums[i] , nums[x] = nums[x] , nums[i]
+                dfs(x + 1)
+                nums[i] , nums[x] = nums[x] , nums[i]
+        res = []
+        dfs(0)
+        return res
+#全排列2
+class Solution:
+    def permuteUnique(self, nums: list[int]) -> list[list[int]]:
+        def dfs(x):
+            if x == len(nums) - 1:
+                res.append(list(nums))
+                return
+            reen = set()
+            for i in range(x,len(nums)):
+                if nums[i] in reen:
+                    continue
+                reen.add(nums[i])
+                nums[i] ,nums[x] = nums[x] , nums[i]
+                dfs(x+1)
+                nums[i] ,nums[x] = nums[x] , nums[i]
+        res = []
+        dfs(0)
+        return res
+
+#组合总和
+class Solution:
+    def combinationSum(self, candidates: list[int], target: int) -> list[list[int]]:
+        def backtrack(state: list[int], target: int,choices:list[int],start: int,res:list[list[int]]):
+            if target == 0:
+                res.append(list(state))
+                return
+            for i in range(start,len(choices)):
+                if target - choices[i] < 0:
+                    break
+                state.append(choices[i])
+                backtrack(state, target - choices[i], choices, i, res)
+                state.pop()
+
+        state = []
+        candidates.sort()
+        start = 0
+        res = []
+        backtrack(state, target,candidates,start,res)
+        return res
