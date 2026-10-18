@@ -947,3 +947,25 @@ class Solution:
         res = []
         backtrack(state, target,candidates,start,res)
         return res
+#组合总和2
+class Solution:
+    def combinationSum2(self, candidates: list[int], target: int) -> list[list[int]]:
+        def backtrack(state:list[int],target:int,choice:list[int],start:int,res:list[list[int]]):
+            if target == 0:
+                res.append(list(state))
+                return
+            for i in range(start,len(choice)):
+                if target - choice[i] < 0:
+                    break
+                if i > start and choice[i] == choice[i - 1]:
+                    continue
+                state.append(choice[i])
+                backtrack(state, target - choice[i], choice, i + 1, res)
+                state.pop()
+
+        state = []
+        candidates.sort()
+        start = 0
+        res = []
+        backtrack(state,target,candidates,start,res)
+        return res
