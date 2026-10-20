@@ -1032,3 +1032,33 @@ class Solution:
             return muves(L.left, R.right) and muves(L.right, R.left)
 
         return not root or muves(root.left, root.right)
+
+#pow（x,n）
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if x == 0.0: return 0.0
+        res = 1
+        if n < 0: x,n = 1/x , -n
+        while n:
+            if n & 1: res*=x
+            x*=x
+            n>>= 1
+        return res
+
+#平衡二叉树
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isBalanced(self, root: TreeNode | None) -> bool:
+        def recur(root):
+            if not root: return 0
+            left = recur(root.left)
+            if left == -1:return -1
+            right = recur(root.right)
+            if right == -1:return -1
+            return max(left,right) + 1 if abs(left - right) <= 1 else -1
+        return recur(root) != -1
