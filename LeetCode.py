@@ -1045,7 +1045,7 @@ class Solution:
             n>>= 1
         return res
 
-#平衡二叉树
+#平衡二叉树（后序遍历+剪枝）
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -1062,3 +1062,42 @@ class Solution:
             if right == -1:return -1
             return max(left,right) + 1 if abs(left - right) <= 1 else -1
         return recur(root) != -1
+
+#法二（先序遍历+深度计算）
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isBalanced(self, root: TreeNode | None) -> bool:
+        if not root: return True
+        return abs(self.depth(root.left) - self.depth(root.right)) <= 1 and self.isBalanced(
+            root.left) and self.isBalanced(root.right)
+
+    def depth(self, root):
+        if not root: return 0
+        return max(self.depth(root.left), self.depth(root.right)) + 1
+
+#从前序与中序遍历序列构造二叉树
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, preorder: list[int], inorder: list[int]) -> TreeNode | None:
+        def recur(root, left, right):
+            if left > right: return
+            node = TreeNode(preorder[root])
+            i = dic[preorder[root]]
+            node.left = recur(root + 1, left, i - 1)
+            node.right = recur(i - left + root + 1, i + 1, right)
+            return node
+
+        dic, preorder = {}, preorder
+        for i in range(len(inorder)):
+            dic[inorder[i]] = i
+        return recur(0, 0, len(inorder) - 1)
