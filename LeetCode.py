@@ -1090,10 +1090,13 @@ class Solution:
 class Solution:
     def buildTree(self, preorder: list[int], inorder: list[int]) -> TreeNode | None:
         def recur(root, left, right):
+            # root: 当前子树根在 preorder 中的下标；[left, right]: 当前子树在 inorder 中的区间
             if left > right: return
             node = TreeNode(preorder[root])
-            i = dic[preorder[root]]
-            node.left = recur(root + 1, left, i - 1)
+            i = dic[preorder[root]]                    # 根节点在 inorder 中的位置
+            node.left = recur(root + 1, left, i - 1)   # 左子树：preorder 根后一位 + inorder 左区间
+            # 左子树长度 = i - left（inorder 中 [left, i-1] 的元素个数）
+            # preorder 顺序为 根 → 左子树(i-left 个) → 右子树，故右子树根 = root + (i - left) + 1
             node.right = recur(i - left + root + 1, i + 1, right)
             return node
 
@@ -1101,3 +1104,38 @@ class Solution:
         for i in range(len(inorder)):
             dic[inorder[i]] = i
         return recur(0, 0, len(inorder) - 1)
+
+#二叉树的序列和反序列
+import collections
+class Codec:
+    def serialize(self, root):
+        if not root: return "[]"
+        queue = collections.deque()
+        queue.append(root)
+        res = []
+        while queue:
+            node = queue.popleft()
+            if node:
+                res.append(str(node.val))
+                queue.append(node.left)
+                queue.append(node.right)
+            else: res.append("null")
+        return '[' + ','.join(res) + ']'
+
+    def deserialize(self, data):
+        if data == "[]": return
+        vals, i = data[1:-1].split(','), 1
+        root = TreeNode(int(vals[0]))
+        queue = collections.deque()
+        queue.append(root)
+        while queue:
+            node = queue.popleft()
+            if vals[i] != "null":
+                node.left = TreeNode(int(vals[i]))
+                queue.append(node.left)
+            i += 1
+            if vals[i] != "null":
+                node.right = TreeNode(int(vals[i]))
+                queue.append(node.right)
+            i += 1
+        return root
