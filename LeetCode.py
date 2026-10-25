@@ -1139,3 +1139,33 @@ class Codec:
                 queue.append(node.right)
             i += 1
         return root
+#斐波那契数列
+class Solution:
+    def fib(self, n: int) -> int:
+        a,b = 0 , 1
+        for _ in range(n):
+            a,b = b,a+b
+        return a
+#爬楼梯
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        a ,b = 1,1
+        for _ in range(n-1):
+            a,b = b,a+b
+        return b
+#一维数组的动态和
+class Solution:
+    def runningSum(self, nums: list[int]) -> list[int]:
+        dp =[0] * len(nums)
+        dp[0] = nums[0]
+        for i in range(1,len(nums)):
+            dp[i] = dp[i-1] + nums[i]
+        return dp
+#买卖股票的最佳时机
+class Solution:
+    def maxProfit(self, prices: list[int]) -> int:
+        cost , profit = float('+inf') , 0
+        for price in prices:
+            cost = min(cost,price)
+            profit = max(profit,price - cost)
+        return profit
