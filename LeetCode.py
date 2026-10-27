@@ -1180,4 +1180,50 @@ class Solution:
                 elif j == 0: grid[i][j] = grid[i-1][j] + grid[i][j]
                 else: grid[i][j] = min(grid[i-1][j],grid[i][j-1]) + grid[i][j]
         return grid[-1][-1]
-    
+
+#最大子数组和
+class Solution:
+    def maxSubArray(self, nums: list[int]) -> int:
+        for i in range(1,len(nums)):
+            nums[i] += max(nums[i-1],0)
+        return max(nums)
+
+#打家劫舍
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        cur, pre = 0, 0
+        for num in nums:
+            cur, pre = max(pre + num, cur), cur
+        return cur
+#打家劫舍2
+class Solution:
+    def rob(self, nums: [int]) -> int:
+        def my_rob(nums):
+            cur, pre = 0, 0
+            for num in nums:
+                cur, pre = max(pre + num, cur), cur
+            return cur
+        return max(my_rob(nums[:-1]),my_rob(nums[1:])) if len(nums) != 1 else nums[0]
+#最长递增子数列
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        if not nums: return 0
+        dp = [1] * len(nums)
+        for i in range(len(nums)):
+            for j in range(i):
+                if nums[j] < nums[i]: # 如果要求非严格递增，将此行 '<' 改为 '<=' 即可。
+                    dp[i] = max(dp[i], dp[j] + 1)
+        return max(dp)
+#上题优化
+class Solution:
+    def lengthOfLIS(self, nums: [int]) -> int:
+        tails, res = [0] * len(nums), 0
+        for num in nums:
+            i, j = 0, res
+            while i < j:
+                m = (i + j) // 2
+                if tails[m] < num: i = m + 1 # 如果要求非严格递增，将此行 '<' 改为 '<=' 即可。
+                else: j = m
+            tails[i] = num
+            if j == res: res += 1
+        return res
