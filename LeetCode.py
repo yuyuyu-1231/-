@@ -1245,3 +1245,24 @@ class Solution:
                     if dp[i - 1][j - 1] and s[i - 1] == p[j - 1]: dp[i][j] = True # 1.
                     elif dp[i - 1][j - 1] and p[j - 1] == '.': dp[i][j] = True    # 2.
         return dp[-1][-1]
+
+#丑数2
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        res , a, b, c = [1] * n , 0, 0, 0
+        for i in range(1,n):
+            n1,n2,n3 = res[a]*2 ,res[b]*3 , res[c]*5
+            res[i] = min(n1,n2,n3)
+            if res[i] == n1: a+=1
+            if res[i] == n2: b+=1
+            if res[i] == n3: c+=1
+        return res[-1]
+
+#买卖股票的最佳时机 II
+class Solution:
+    def maxProfit(self, prices: list[int]) -> int:
+        profit = 0
+        for i in range(1,len(prices)):
+            tmp = prices[i] - prices[i-1]
+            if tmp>0: profit+=tmp
+        return profit
