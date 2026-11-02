@@ -1342,3 +1342,15 @@ class Solution:
             count += max(left[i], right[i])
         return count
 
+#最多能完成的排序块
+class Solution:
+    def maxChunksToSorted(self, arr: list[int]) -> int:
+        stack = []
+        for num in arr:
+            if stack and num < stack[-1]:
+                head = stack.pop()
+                while stack and num < stack[-1]:stack.pop()
+                stack.append(head)
+            else:
+                stack.append(num)
+        return len(stack)
