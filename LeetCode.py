@@ -1354,3 +1354,45 @@ class Solution:
             else:
                 stack.append(num)
         return len(stack)
+
+#位一的个数
+class Solution:
+    def hammingWeight(self, n: int) -> int:
+        res = 0
+        while n:
+            res += n&1
+            n>>= 1
+        return res
+
+#法二
+class Solution:
+    def hammingWeight(self, n: int) -> int:
+        res = 0
+        while n:
+            res+=1
+            n&=(n-1)
+        return res
+
+#二的幂数
+class Solution:
+    def isPowerOfTwo(self, n: int) -> bool:
+        return  n>0 and n&(n-1) ==0
+
+#两整数编码
+class Solution:
+    def getSum(self, a: int, b: int) -> int:
+        x = 0xffffffff
+        a, b = a & x, b & x
+        # 循环，当进位为 0 时跳出
+        while b != 0:
+            # a, b = 非进位和, 进位
+            a, b = (a ^ b), (a & b) << 1 & x
+        return a if a <= 0x7fffffff else ~(a ^ x)
+
+#只出现一次的数字
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        x = 0
+        for num in nums:
+            x ^= num
+        return x
