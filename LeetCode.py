@@ -1405,3 +1405,31 @@ class Solution:
             ones = ones ^ num & ~twos
             twos = twos ^ num & ~ones
         return ones
+
+#除了自身以外数组的乘积
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        ans , tmp = len(nums)*[1] , 1
+        for i in range(1,len(nums)):
+            ans[i] = nums[i-1] * ans[i-1]
+        for i in range(len(nums)-2,-1,-1):
+            tmp *= nums[i+1]
+            ans[i] *= tmp
+        return ans
+
+#多数元素
+class Solution:
+    def majorityElement(self, nums: list[int]) -> int:
+        votes = 0
+        for num in nums:
+            if votes == 0: x = num
+            votes += 1 if num == x else -1
+        return x
+#整数拆分
+class Solution:
+    def integerBreak(self, n: int) -> int:
+        if n<=3:return n-1
+        a,b = n//3 ,n%3
+        if b == 1: return int(math.pow(3,a-1)*4)
+        if b == 2: return int(math.pow(3,a)*2)
+        return int(math.pow(3,a))
