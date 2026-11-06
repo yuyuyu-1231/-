@@ -1433,3 +1433,20 @@ class Solution:
         if b == 1: return int(math.pow(3,a-1)*4)
         if b == 2: return int(math.pow(3,a)*2)
         return int(math.pow(3,a))
+
+#格雷编码
+class Solution:
+    def grayCode(self, n: int) -> list[int]:
+        res, head = [0], 1
+        for i in range(n):
+            for j in range(len(res) - 1, -1, -1):
+                res.append(head + res[j])
+            head <<= 1
+        return res
+#找出游戏获胜者
+class Solution:
+    def findTheWinner(self, n: int, k: int) -> int:
+        x = 0
+        for i in range(2,n+1):
+            x = (x+k)%i
+        return x+1
