@@ -1450,3 +1450,32 @@ class Solution:
         for i in range(2,n+1):
             x = (x+k)%i
         return x+1
+
+#第n位数字
+class Solution:
+    def findNthDigit(self, n: int) -> int:
+        digit,start,count = 1,1,9
+        while n > count:
+            n -= count
+            digit += 1
+            start *= 10
+            count = 9*digit*start
+        num = start + (n-1) // digit
+        return int(str(num)[(n-1)%digit])
+#数字1的个数
+class Solution:
+    def countDigitOne(self, n: int) -> int:
+        res = 0
+        digit = 1
+        while digit <= n:
+            high = n // (digit * 10)   # 高位部分
+            cur = (n // digit) % 10    # 当前位
+            low = n % digit            # 低位部分
+            if cur == 0:
+                res += high * digit
+            elif cur == 1:
+                res += high * digit + low + 1
+            else:
+                res += (high + 1) * digit
+            digit *= 10
+        return res
