@@ -1479,3 +1479,52 @@ class Solution:
                 res += (high + 1) * digit
             digit *= 10
         return res
+#两数之和
+class Solution:
+    def twoSum(self, nums: list[int], target: int) -> list[int]:
+        for i in range(len(nums)):
+            res = target - nums[i]
+            if res in nums[i+1:]:
+                return [i,nums[i+1:].index(res)+i+1]
+
+#法二
+class Solution:
+    def twoSum(self, nums: list[int], target: int) -> list[int]:
+        result = {}
+        for index,num in enumerate(nums):
+            if target - num in result:
+                return [result[target-num],index]
+            else:
+                result[num] = index
+
+#定长字串中元音最大的数目
+class Solution:
+    def maxVowels(self, s: str, k: int) -> int:
+        ans = vowel = 0
+        for i,c in enumerate(s):
+            if c in "aeiou":
+                vowel += 1
+            left = i-k+1
+            if left < 0:
+                continue
+            ans = max(ans,vowel)
+            if ans == k:
+                break
+            if s[left] in "aeiou":
+                vowel -= 1
+        return ans
+#接雨水
+class Solution:
+    def trap(self, height: list[int]) -> int:
+        ans = pre_max = duf_max = 0
+        left , right = 0 ,len(height) - 1
+        while left < right:
+            pre_max = max(pre_max,height[left])
+            duf_max = max(duf_max,height[right])
+            if pre_max < duf_max:
+                ans += pre_max - height[left]
+                left += 1
+            else:
+                ans += duf_max - height[right]
+                right -= 1
+        return ans
