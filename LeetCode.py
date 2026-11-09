@@ -1528,3 +1528,58 @@ class Solution:
                 ans += duf_max - height[right]
                 right -= 1
         return ans
+
+#回文排列
+class Solution:
+    def canPermutePalindrome(self, s: str) -> bool:
+        dic = defaultdict(int)
+        for c in s:
+            dic[c] += 1
+        ood = 0
+        for val in dic.values():
+            if val % 2 == 1:
+                ood += 1
+                if ood > 1:
+                    return False
+        return True
+#最长回文串
+class Solution:
+    def longestPalindrome(self, s: str) -> int:
+        counter = collections.defaultdict(int)
+        for c in s:
+            counter[c] += 1
+        res , odd = 0, 0
+        for count in counter.values():
+            rem = count % 2
+            res += count - rem
+            if rem == 1:odd = 1
+        return res + odd
+
+#将二叉搜索树转化为排序的双向链表
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+"""
+
+
+class Solution:
+    def treeToDoublyList(self, root: 'Optional[Node]') -> 'Optional[Node]':
+        def dfs(cur):
+            if not cur: return
+            dfs(cur.left)
+            if self.pre:
+                self.pre.right, cur.left = cur, self.pre
+            else:
+                self.head = cur
+            self.pre = cur
+            dfs(cur.right)
+
+        if not root: return
+        self.pre = None
+        dfs(root)
+        self.head.left, self.pre.right = self.pre, self.head
+        return self.head
