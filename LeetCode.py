@@ -1583,3 +1583,65 @@ class Solution:
         dfs(root)
         self.head.left, self.pre.right = self.pre, self.head
         return self.head
+
+#子数组最大平均数1
+class Solution:
+    def findMaxAverage(self, nums: list[int], k: int) -> float:
+        max_s = -inf
+        s = 0
+        for i,x in enumerate(nums):
+            s+=x
+            if i < k-1:
+                continue
+            max_s = max(max_s,s)
+            s -= nums[i-k+1]
+        return max_s/k
+#大小为 K 且平均值大于等于阈值的子数组数目
+class Solution:
+    def numOfSubarrays(self, arr: list[int], k: int, threshold: int) -> int:
+        add = 0
+        c = 0
+        for i ,x in enumerate(arr):
+            c +=x
+            if i < k-1:
+                continue
+            if c/k >= threshold:
+                add += 1
+            c -= arr[i-k+1]
+        return add
+
+#半径为k的子数组平均值
+class Solution:
+    def getAverages(self, nums: List[int], k: int) -> List[int]:
+        avgs = [-1] * len(nums)
+        s = 0
+        for i, x in enumerate(nums):
+            s += x
+            if i < k * 2:
+                continue
+            avgs[i - k] = s // (k * 2 + 1)
+            s -= nums[i - k * 2]
+        return avgs
+
+#分享k个连续糖果之后独特口味糖果的数量
+class Solution:
+    def shareCandies(self, candies: List[int], k: int) -> int:
+        d = defaultdict(int)
+        kinds = 0  # 种类
+        ans = 0
+        # 统计所有candies 数量, 种类
+        for i, num in enumerate(candies):
+            if not d[num]: kinds += 1
+            d[num] += 1
+        for i, num in enumerate(candies):
+            # 入, 减去数量, 种类
+            d[num] -= 1
+            if not d[num]: kinds -= 1
+            if i - k + 1 < 0: continue
+            # 出
+            if i - k + 1 > 0:
+                if not d[candies[i - k]]: kinds += 1
+                d[candies[i - k]] += 1
+            # 更新
+            ans = max(ans, kinds)
+        return ans
