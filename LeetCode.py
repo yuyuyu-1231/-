@@ -1645,3 +1645,73 @@ class Solution:
             # 更新
             ans = max(ans, kinds)
         return ans
+
+#得到k个黑块的最小涂色次数
+class Solution:
+    def minimumRecolors(self, blocks: str, k: int) -> int:
+        add = k
+        num = 0
+        for i, x in enumerate(blocks):
+            if x == "W":
+                num += 1
+            if i < k - 1:
+                continue
+            add = min(add, num)
+
+            if blocks[i - k + 1] == "W":
+                num -= 1
+
+        return add
+#几乎唯一子数组的最大和
+class Solution:
+    def maxSum(self, nums: List[int], m: int, k: int) -> int:
+        ans = s = 0
+        cnt = defaultdict(int)
+        for i, x in enumerate(nums):
+            # 1. 进入窗口
+            s += x
+            cnt[x] += 1
+
+            left = i - k + 1
+            if left < 0:  # 窗口大小不足 k
+                continue
+
+            # 2. 更新答案
+            if len(cnt) >= m:
+                ans = max(ans, s)
+
+            # 3. 离开窗口
+            out = nums[left]
+            s -= out
+            cnt[out] -= 1
+            if cnt[out] == 0:
+                del cnt[out]  # 保证 len(cnt) 不计入出现 0 次的元素
+
+        return ans
+#长度为k的子数组最大和
+class Solution:
+    def maximumSubarraySum(self, nums: List[int], k: int) -> int:
+        ans = s = 0
+        cnt = defaultdict(int)
+        for i, x in enumerate(nums):
+            # 1. 进入窗口
+            s += x
+            cnt[x] += 1
+
+            left = i - k + 1
+            if left < 0:  # 窗口大小不足 k
+                continue
+
+            # 2. 更新答案
+            if len(cnt) == k:
+                ans = max(ans, s)
+
+            # 3. 离开窗口
+            out = nums[left]
+            s -= out
+            cnt[out] -= 1
+            if cnt[out] == 0:
+                del cnt[out]  # 保证 len(cnt) 不计入出现 0 次的元素
+
+        return ans
+
