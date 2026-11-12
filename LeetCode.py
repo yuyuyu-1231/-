@@ -1715,3 +1715,29 @@ class Solution:
 
         return ans
 
+#可获得的最大点数
+class Solution:
+    def maxScore(self, cardPoints: List[int], k: int) -> int:
+        n = len(cardPoints)
+        m = n - k
+        min_s = s = sum(cardPoints[:m])
+        for i in range(m,n):
+            s += cardPoints[i] - cardPoints[i-m]
+            min_s = min(s,min_s)
+        return sum(cardPoints) - min_s
+
+#爱生气的书店老板
+class Solution:
+    def maxSatisfied(self, customers: list[int], grumpy: list[int], minutes: int) -> int:
+        s = [0, 0]
+        max_s = 0
+
+        for i, (c, g) in enumerate(zip(customers, grumpy)):
+            s[g] += c
+            left = i - minutes + 1
+            if left < 0:
+                continue
+            max_s = max(max_s, s[1])
+            if grumpy[left]:
+                s[1] -= customers[left]
+        return max_s + s[0]
