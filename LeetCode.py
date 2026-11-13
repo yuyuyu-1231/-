@@ -1741,3 +1741,29 @@ class Solution:
             if grumpy[left]:
                 s[1] -= customers[left]
         return max_s + s[0]
+
+#每个字符最多出现两次的最长子字符串
+class Solution:
+    def maximumLengthSubstring(self, s: str) -> int:
+        ans = left = 0
+        cut = defaultdict(int)
+        for i , x in enumerate(s):
+            cut[x] += 1
+            while cut[x] > 2:
+                cut[s[left]] -= 1
+                left += 1
+            ans = max(ans,i-left+1)
+        return ans
+#删掉一个元素以后全为一的子数组
+class Solution:
+    def longestSubarray(self, nums: list[int]) -> int:
+        ans = cnt0 = left = 0
+        for right, x in enumerate(nums):
+            cnt0 += 1 - x
+            while cnt0 > 1:
+                cnt0 -= 1 - nums[left]
+                left += 1
+            ans = max(ans, right - left)
+        return ans
+
+
