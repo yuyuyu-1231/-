@@ -1766,4 +1766,36 @@ class Solution:
             ans = max(ans, right - left)
         return ans
 
+#水果成篮
+class Solution:
+    def totalFruit(self, fruits: list[int]) -> int:
+        ans = left = 0
+        cut = defaultdict(int)
+        for right , x in enumerate(fruits):
+            cut[x] += 1
+            while len(cut) > 2:
+                out = fruits[left]
+                cut[out] -= 1
+                if cut[out] == 0:
+                    del cut[out]
+                left += 1
+            ans = max(ans,right-left+1)
+        return ans
+#在排序数组中查找元素的第一个和最后一个位置
+class Solution:
+    def lower_bound(self,nums:list[int],target:int) -> int:
+        left , right = 0 , len(nums) - 1
+        while left <= right:
+            mid = (left+right)//2
+            if nums[mid] >= target:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return left
 
+    def searchRange(self, nums: list[int], target: int) -> list[int]:
+        start = self.lower_bound(nums,target)
+        if start == len(nums) or nums[start] != target:
+            return [-1,-1]
+        end = self.lower_bound(nums,target+1) -1
+        return [start,end]
