@@ -1799,3 +1799,25 @@ class Solution:
             return [-1,-1]
         end = self.lower_bound(nums,target+1) -1
         return [start,end]
+
+#搜索插入位置
+class Solution:
+    def searchInsert(self, nums: list[int], target: int) -> int:
+        left , right = 0 , len(nums) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] >= target:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return left
+#两个数组之间的距离值
+class Solution:
+    def findTheDistanceValue(self, arr1: List[int], arr2: List[int], d: int) -> int:
+        arr2.sort()
+        ans = 0
+        for x in arr1:
+            i = bisect_left(arr2, x - d)
+            if i == len(arr2) or arr2[i] > x + d:
+                ans += 1
+        return ans
