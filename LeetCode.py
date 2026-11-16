@@ -1821,3 +1821,20 @@ class Solution:
             if i == len(arr2) or arr2[i] > x + d:
                 ans += 1
         return ans
+#比较字符串中最小字母出现频率
+class Solution:
+    def f(self,s):
+            minimal = min(s)
+            return s.count(minimal)
+    def numSmallerByFrequency(self, queries: list[str], words: list[str]) -> list[int]:
+        word_fre = []
+        ans = []
+
+        for word in words:
+            word_fre.append(self.f(word))
+        word_fre.sort()
+
+        for query in queries:
+            i = bisect_left(word_fre,self.f(query)+1)
+            ans.append(len(words)-i)
+        return ans
