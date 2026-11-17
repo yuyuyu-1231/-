@@ -1838,3 +1838,27 @@ class Solution:
             i = bisect_left(word_fre,self.f(query)+1)
             ans.append(len(words)-i)
         return ans
+
+#每日温度
+class Solution:
+    def dailyTemperatures(self, temperatures: list[int]) -> list[int]:
+        n = len(temperatures)
+        ans = [0] * n
+        st = []
+        for i, x in enumerate(temperatures):
+            while st and x > temperatures[st[-1]]:
+                j = st.pop()
+                ans[j] = i - j
+            st.append(i)
+        return ans
+
+#商店折扣后的最终价格
+class Solution:
+    def finalPrices(self, prices: list[int]) -> list[int]:
+        st = []
+        for i ,x in enumerate(prices):
+            while st and prices[st[-1]] >= x:
+                j = st.pop()
+                prices[j] -= x
+            st.append(i)
+        return prices
