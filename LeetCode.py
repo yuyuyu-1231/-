@@ -1862,3 +1862,29 @@ class Solution:
                 prices[j] -= x
             st.append(i)
         return prices
+
+#下一个最大元素1
+class Solution:
+    def nextGreaterElement(self, nums1: list[int], nums2: list[int]) -> list[int]:
+        idx = {x:i for i,x in enumerate(nums1)}
+        ans = [-1] * len(nums1)
+        st = []
+        for x in reversed(nums2):
+            while st and x >= st[-1]:
+                st.pop()
+            if st and x in idx:
+                ans[idx[x]] = st[-1]
+            st.append(x)
+        return ans
+#法二
+class Solution:
+    def nextGreaterElement(self, nums1: list[int], nums2: list[int]) -> list[int]:
+        idx = {x: i for i, x in enumerate(nums1)}
+        ans = [-1] * len(nums1)
+        st = []
+        for x in nums2:
+            while st and x > st[-1]:
+                ans[idx[st.pop()]] = x
+            if x in idx:
+                st.append(x)
+        return ans
