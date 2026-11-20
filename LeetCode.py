@@ -1888,3 +1888,44 @@ class Solution:
             if x in idx:
                 st.append(x)
         return ans
+
+#下一个最大元素2
+class Solution:
+    def nextGreaterElements(self, nums: list[int]) -> list[int]:
+        n = len(nums)
+        ans = [-1] * n
+        st = []
+        for i in range(2*n):
+            x = nums[i%n]
+            while st and x > nums[st[-1]]:
+                ans[st.pop()] = x
+            if i < n:
+                st.append(i)
+        return ans
+#柱状图中最大矩阵
+class Solution:
+    def largestRectangleArea(self, heights: list[int]) -> int:
+        n = len(heights)
+        left = [-1] * n
+        st = []
+        for i, h in enumerate(heights):
+            while st and heights[st[-1]] >= h:
+                st.pop()
+            if st:
+                left[i] = st[-1]
+            st.append(i)
+
+        right = [n] * n
+        st.clear()
+        for i in range(n - 1, -1, -1):
+            h = heights[i]
+            while st and heights[st[-1]] >= h:
+                st.pop()
+            if st:
+                right[i] = st[-1]
+            st.append(i)
+
+        ans = 0
+        for h, l, r in zip(heights, left, right):
+            ans = max(ans, h * (r - l - 1))
+        return ans
