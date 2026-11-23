@@ -1929,3 +1929,16 @@ class Solution:
         for h, l, r in zip(heights, left, right):
             ans = max(ans, h * (r - l - 1))
         return ans
+#化简
+class Solution:
+    def largestRectangleArea(self, heights: list[int]) -> int:
+        heights.append(-1)
+        st = [-1]
+        ans = 0
+        for right, h in enumerate(heights):
+            while len(st) > 1 and heights[st[-1]] >= h:
+                i = st.pop()
+                left = st[-1]
+                ans = max(ans,heights[i]*(right-left-1))
+            st.append(right)
+        return ans
