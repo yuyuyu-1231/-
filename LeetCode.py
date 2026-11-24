@@ -1942,3 +1942,50 @@ class Solution:
                 ans = max(ans,heights[i]*(right-left-1))
             st.append(right)
         return ans
+
+#子数组的最小值之和
+class Solution:
+    def sumSubarrayMins(self, arr: list[int]) -> int:
+        n = len(arr)
+        st, left = [], [-1] * n
+        for i, x in enumerate(arr):
+            while st and arr[st[-1]] >= x:
+                st.pop()
+            if st:
+                left[i] = st[-1]
+            st.append(i)
+
+        right, st = [n] * n, []
+        for i in range(n - 1, -1, -1):
+            while st and arr[st[-1]] > arr[i]:
+                st.pop()
+            if st:
+                right[i] = st[-1]
+            st.append(i)
+        ans = 0
+        for i, (x, l, r) in enumerate(zip(arr, left, right)):
+            ans = ans + (x * (r - i) * (i - l))
+        return ans % (10 ** 9 + 7)
+#优化
+class Solution:
+    def sumSubarrayMins(self, arr: list[int]) -> int:
+        arr.append(-1)
+        ans , st = 0 ,[-1]
+        for r ,x in enumerate(arr):
+            while len(st) > 1 and arr[st[-1]] >= x:
+                i = st.pop()
+                ans += arr[i] *(i - st[-1]) * (r-i)
+            st.append(r)
+        return ans %(10**9 +7)
+
+#移除k位数字
+class Solution:
+    def removeKdigits(self, num: str, k: int) -> str:
+        st = []
+        remain = len(num) - k
+        for i in num:
+            while st and k and st[-1] > i:
+                st.pop()
+                k-=1
+            st.append(i)
+        return ''.join(st[:remain]).lstrip('0') or "0"
